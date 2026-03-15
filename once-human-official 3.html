@@ -1,1078 +1,1841 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Heart, 
-  Star, 
-  Clock, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Sparkles,
-  ChevronDown,
-  Lock,
-  BookOpen,
-  Gift,
-  Zap,
-  MessageCircle,
-  Users,
-  Award,
-  Crown,
-  Flower2,
-  Moon,
-  Sparkle,
-  TrendingUp,
-  Book
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZG310H9JT0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-// Psychological Color Palette based on research:
-// Soft Pink/Rose: Tenderness, nurturing, femininity, love
-// Deep Rose/Burgundy: Passion, deep emotional connection  
-// Lavender/Purple: Spirituality, mystery, dreamy romance
-// Warm Gold: Value, preciousness, celebration
-// Peach/Coral: Warmth, comfort, emotional safety
-// Cream/Off-White: Purity, new beginnings, elegance
-// Landscapes: Sunset golden hour, roses, candlelight, soft natural elements
+  gtag('config', 'G-ZG310H9JT0');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Girl's Guide to Opening His Heart - Transform Your Relationship Today</title>
+    <meta name="description" content="Discover the proven secrets to making him open his heart completely. Join 10,000+ women who transformed their relationships.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== CSS VARIABLES - PSYCHOLOGICAL COLOR PALETTE ===== */
+        :root {
+            --rose-light: #FCE7F3;
+            --rose-medium: #F9A8D4;
+            --rose-pink: #EC4899;
+            --rose-deep: #BE123C;
+            --burgundy: #9F1239;
+            --lavender: #C084FC;
+            --purple: #A855F7;
+            --gold: #FBBF24;
+            --gold-dark: #F59E0B;
+            --peach: #FDBA74;
+            --cream: #FFFBEB;
+            --white: #FFFFFF;
+            --text-dark: #1F2937;
+            --text-gray: #6B7280;
+            --shadow-soft: 0 4px 24px rgba(236, 72, 153, 0.15);
+            --shadow-medium: 0 8px 32px rgba(190, 18, 60, 0.2);
+            --shadow-deep: 0 16px 48px rgba(190, 18, 60, 0.3);
+        }
 
-// Floating Hearts & Petals Component
-const FloatingElements = () => {
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {[...Array(25)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute"
-          initial={{ 
-            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000), 
-            y: typeof window !== 'undefined' ? window.innerHeight + 50 : 800,
-            scale: 0.5 + Math.random() * 0.5,
-            opacity: 0 
-          }}
-          animate={{ 
-            y: -100,
-            opacity: [0, 0.5, 0],
-            rotate: Math.random() * 360
-          }}
-          transition={{ 
-            duration: 10 + Math.random() * 10,
-            repeat: Infinity,
-            delay: Math.random() * 8,
-            ease: "linear"
-          }}
-        >
-          {i % 3 === 0 ? (
-            <Heart className="text-rose-300/25" fill="currentColor" size={20 + Math.random() * 30} />
-          ) : i % 3 === 1 ? (
-            <Flower2 className="text-pink-300/25" size={15 + Math.random() * 25} />
-          ) : (
-            <Sparkle className="text-amber-200/30" size={10 + Math.random() * 20} />
-          )}
-        </motion.div>
-      ))}
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FCE7F3 0%, #F9A8D4 50%, #C084FC 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .cormorant {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* ===== FLOATING ELEMENTS ANIMATION ===== */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(236, 72, 153, 0.3);
+            animation: float-up 15s infinite ease-in-out;
+        }
+
+        .floating-heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .floating-heart:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .floating-heart:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .floating-heart:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .floating-heart:nth-child(5) { left: 60%; animation-delay: 8s; }
+        .floating-heart:nth-child(6) { left: 70%; animation-delay: 10s; }
+        .floating-heart:nth-child(7) { left: 80%; animation-delay: 12s; }
+        .floating-heart:nth-child(8) { left: 90%; animation-delay: 14s; }
+
+        @keyframes float-up {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== STICKY HEADER ===== */
+        .sticky-header {
+            position: fixed;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: top 0.3s ease;
+            padding: 1rem 2rem;
+        }
+
+        .sticky-header.visible {
+            top: 0;
+        }
+
+        .sticky-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sticky-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--rose-deep), var(--rose-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sticky-cta {
+            background: linear-gradient(135deg, var(--rose-pink), var(--rose-deep));
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(236, 72, 153, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .sticky-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(236, 72, 153, 0.5);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(190, 18, 60, 0.85) 0%, rgba(236, 72, 153, 0.75) 50%, rgba(168, 85, 247, 0.8) 100%),
+                        url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1920&q=85');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-text {
+            color: white;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-dark);
+            padding: 1.25rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 32px rgba(251, 191, 36, 0.4);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(251, 191, 36, 0.5);
+        }
+
+        .trust-indicators {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ===== PROFESSIONAL BOOK COVER ===== */
+        .book-cover-container {
+            position: relative;
+            width: 320px;
+            height: 480px;
+            perspective: 1000px;
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #FCE7F3 0%, #F472B6 40%, #EC4899 70%, #BE123C 100%);
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 
+                -8px 0 16px rgba(0, 0, 0, 0.3),
+                0 8px 32px rgba(190, 18, 60, 0.4),
+                inset 2px 0 4px rgba(255, 255, 255, 0.3);
+            transform: rotateY(-15deg) rotateX(5deg);
+            transition: transform 0.5s ease;
+            overflow: hidden;
+        }
+
+        .book-cover:hover {
+            transform: rotateY(-10deg) rotateX(3deg) scale(1.02);
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                transparent 50%, 
+                rgba(0, 0, 0, 0.1) 100%);
+            border-radius: 12px;
+        }
+
+        .book-spine {
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 16px;
+            height: 100%;
+            background: linear-gradient(90deg, #9F1239, #BE123C);
+            border-radius: 8px 0 0 8px;
+            box-shadow: -4px 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-pages {
+            position: absolute;
+            right: -12px;
+            top: 8px;
+            width: 12px;
+            height: calc(100% - 16px);
+            background: linear-gradient(90deg, #FFFBEB, #FEF3C7, #FFFBEB);
+            border-radius: 0 4px 4px 0;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .book-heart {
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.5));
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .book-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .book-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--gold);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .book-corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .book-corner.top-left {
+            top: 16px;
+            left: 16px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .book-corner.top-right {
+            top: 16px;
+            right: 16px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .book-corner.bottom-left {
+            bottom: 16px;
+            left: 16px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .book-corner.bottom-right {
+            bottom: 16px;
+            right: 16px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .book-shimmer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-dark);
+            padding: 1rem 1.5rem;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 16px rgba(251, 191, 36, 0.5);
+            animation: pulse-badge 2s infinite;
+            z-index: 20;
+        }
+
+        /* ===== PROBLEM SECTION ===== */
+        .problem-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--rose-light) 100%);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--rose-pink), var(--rose-deep));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .problem-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--rose-medium);
+        }
+
+        .problem-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--rose-light), var(--rose-medium));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--rose-deep);
+        }
+
+        .problem-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .problem-card p {
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--rose-light) 0%, var(--lavender) 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--rose-pink);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--rose-pink), var(--rose-deep));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.375rem;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* ===== CHAPTERS PREVIEW ===== */
+        .chapters-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--lavender) 0%, var(--cream) 100%);
+        }
+
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .chapter-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .chapter-card:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .chapter-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text-dark);
+            flex-shrink: 0;
+        }
+
+        .chapter-content h4 {
+            font-size: 1.125rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-content p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* ===== TESTIMONIALS SECTION ===== */
+        .testimonials-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--rose-light) 100%);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .testimonial-stars {
+            color: var(--gold);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-gray);
+            font-style: italic;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--rose-medium);
+        }
+
+        .testimonial-info h4 {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-info p {
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #10B981;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--rose-light) 0%, var(--purple) 100%);
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            position: relative;
+        }
+
+        .step-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--rose-pink), var(--rose-deep));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+        }
+
+        .step-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .step-card p {
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* ===== PRICING SECTION ===== */
+        .pricing-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--purple) 0%, var(--burgundy) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem 2.5rem;
+            border-radius: 32px;
+            box-shadow: var(--shadow-deep);
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-dark);
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pricing-title {
+            font-size: 1.75rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-subtitle {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .pricing-price {
+            margin-bottom: 2rem;
+        }
+
+        .price-old {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            text-decoration: line-through;
+        }
+
+        .price-new {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--rose-pink), var(--rose-deep));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--rose-light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-gray);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: #10B981;
+            font-size: 1.25rem;
+        }
+
+        .pricing-cta {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, var(--rose-pink), var(--rose-deep));
+            color: white;
+            padding: 1.25rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .pricing-cta:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(236, 72, 153, 0.5);
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(251, 191, 36, 0.1);
+            border-radius: 16px;
+            border: 2px dashed var(--gold-dark);
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--rose-deep);
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+
+        /* ===== GUARANTEE SECTION ===== */
+        .guarantee-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, var(--burgundy) 0%, var(--cream) 100%);
+        }
+
+        .guarantee-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 32px;
+            box-shadow: var(--shadow-deep);
+            text-align: center;
+            border: 3px solid var(--gold);
+        }
+
+        .guarantee-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .guarantee-title {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .guarantee-text {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+        }
+
+        /* ===== FAQ SECTION ===== */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--rose-light) 100%);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: var(--rose-light);
+        }
+
+        .faq-question h3 {
+            font-size: 1.125rem;
+            color: var(--text-dark);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--rose-pink);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem;
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* ===== FINAL CTA SECTION ===== */
+        .final-cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, rgba(190, 18, 60, 0.9) 0%, rgba(236, 72, 153, 0.85) 50%, rgba(168, 85, 247, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1920&q=85');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            text-align: center;
+            color: white;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .final-cta p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .final-cta .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-dark);
+            padding: 1.5rem 4rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            box-shadow: 0 8px 32px rgba(251, 191, 36, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .final-cta .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(251, 191, 36, 0.5);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--rose-medium);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--rose-medium);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text {
+                order: 2;
+            }
+
+            .hero-image {
+                order: 1;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .trust-indicators {
+                justify-content: center;
+            }
+
+            .book-cover-container {
+                width: 280px;
+                height: 420px;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .pricing-card.popular:hover {
+                transform: translateY(-8px);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .book-cover-container {
+                width: 240px;
+                height: 360px;
+            }
+
+            .countdown-timer {
+                gap: 0.5rem;
+            }
+
+            .countdown-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Animation -->
+    <div class="floating-elements">
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💗</div>
+        <div class="floating-heart">💖</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💗</div>
+        <div class="floating-heart">💖</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💗</div>
     </div>
-  );
-};
 
-// Countdown Timer
-const CountdownTimer = () => {
-  const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 59 });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return { hours: 23, minutes: 59, seconds: 59 };
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <div className="flex items-center justify-center gap-3 font-bold text-white">
-      <div className="bg-gradient-to-b from-rose-500 to-rose-700 rounded-2xl px-5 py-4 shadow-2xl border border-rose-300/40 backdrop-blur-sm">
-        <span className="text-3xl md:text-4xl">{String(timeLeft.hours).padStart(2, '0')}</span>
-        <p className="text-xs font-medium text-rose-100 uppercase tracking-wider">Hours</p>
-      </div>
-      <span className="text-4xl text-rose-200">:</span>
-      <div className="bg-gradient-to-b from-rose-500 to-rose-700 rounded-2xl px-5 py-4 shadow-2xl border border-rose-300/40 backdrop-blur-sm">
-        <span className="text-3xl md:text-4xl">{String(timeLeft.minutes).padStart(2, '0')}</span>
-        <p className="text-xs font-medium text-rose-100 uppercase tracking-wider">Mins</p>
-      </div>
-      <span className="text-4xl text-rose-200">:</span>
-      <div className="bg-gradient-to-b from-rose-500 to-rose-700 rounded-2xl px-5 py-4 shadow-2xl border border-rose-300/40 backdrop-blur-sm">
-        <span className="text-3xl md:text-4xl">{String(timeLeft.seconds).padStart(2, '0')}</span>
-        <p className="text-xs font-medium text-rose-100 uppercase tracking-wider">Secs</p>
-      </div>
-    </div>
-  );
-};
-
-// Sticky Header
-const StickyHeader = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setIsVisible(window.scrollY > 600);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  if (!isVisible) return null;
-
-  return (
-    <motion.div 
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-rose-900/95 via-rose-800/95 to-rose-900/95 backdrop-blur-md shadow-2xl border-b border-rose-700/50"
-    >
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Heart className="text-rose-300 fill-rose-300" size={24} />
-          <span className="text-white font-bold text-lg hidden md:block">A Girl's Guide</span>
+    <!-- Sticky Header -->
+    <header class="sticky-header" id="stickyHeader">
+        <div class="sticky-header-content">
+            <div class="sticky-logo">Love Guide</div>
+            <a href="#pricing" class="sticky-cta">Get Your Copy →</a>
         </div>
-        <button className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-          Get Your Copy - $27
-        </button>
-      </div>
-    </motion.div>
-  );
-};
+    </header>
 
-// Feature Card
-const FeatureCard = ({ icon: Icon, title, description, color, delay }: any) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay }}
-    viewport={{ once: true }}
-    whileHover={{ y: -8, scale: 1.02 }}
-    className="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-rose-100/60 overflow-hidden"
-  >
-    <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-    <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${color} mb-5 shadow-lg group-hover:shadow-xl transition-shadow duration-500`}>
-      <Icon className="text-white" size={32} />
-    </div>
-    <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-rose-600 transition-colors duration-300">{title}</h3>
-    <p className="text-gray-600 leading-relaxed">{description}</p>
-    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-400 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-  </motion.div>
-);
-
-// Testimonial Card
-const TestimonialCard = ({ name, location, text, rating, image, delay }: any) => (
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.7, delay }}
-    viewport={{ once: true }}
-    className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-rose-100/60 hover:shadow-2xl transition-all duration-500"
-  >
-    <div className="flex items-center gap-1 mb-4">
-      {[...Array(rating)].map((_, i) => (
-        <Star key={i} className="text-amber-400 fill-amber-400" size={20} />
-      ))}
-    </div>
-    <p className="text-gray-700 mb-6 italic leading-relaxed">"{text}"</p>
-    <div className="flex items-center gap-4">
-      <img src={image} alt={name} className="w-14 h-14 rounded-full object-cover border-2 border-rose-200 shadow-md" />
-      <div>
-        <p className="font-bold text-gray-800">{name}</p>
-        <p className="text-sm text-gray-500">{location}</p>
-      </div>
-    </div>
-  </motion.div>
-);
-
-// FAQ Item
-const FAQItem = ({ question, answer, isOpen, onClick, index }: any) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: index * 0.1 }}
-    viewport={{ once: true }}
-    className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-rose-100/60 overflow-hidden hover:shadow-xl transition-all duration-300"
-  >
-    <button
-      onClick={onClick}
-      className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-rose-50/50 transition-colors duration-300"
-    >
-      <span className="font-bold text-gray-800 text-lg">{question}</span>
-      <motion.div
-        animate={{ rotate: isOpen ? 180 : 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <ChevronDown className="text-rose-500 flex-shrink-0" size={24} />
-      </motion.div>
-    </button>
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="overflow-hidden"
-        >
-          <div className="px-6 pb-5 text-gray-600 leading-relaxed">{answer}</div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </motion.div>
-);
-
-// Professional Book Cover Component with Ultra-Professional Design
-const ProfessionalBookCover = ({ size = "large" }: { size?: "small" | "medium" | "large" }) => {
-  const sizeClasses = {
-    small: "w-40 h-60",
-    medium: "w-56 h-80",
-    large: "w-72 h-[28rem]"
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, rotateY: -12, scale: 0.95 }}
-      animate={{ opacity: 1, rotateY: 0, scale: 1 }}
-      transition={{ duration: 1, ease: "easeOut" }}
-      className={`relative ${sizeClasses[size]}`}
-      style={{ perspective: '1200px', transformStyle: 'preserve-3d' }}
-    >
-      {/* Ambient Glow */}
-      <div className="absolute -inset-4 bg-gradient-to-r from-rose-400/40 via-pink-400/40 to-amber-400/40 rounded-3xl blur-2xl animate-pulse" />
-      
-      {/* Book Shadow */}
-      <div className="absolute inset-0 bg-black/25 rounded-2xl blur-xl transform translate-y-6 translate-x-3" />
-      
-      {/* Main Book Cover */}
-      <div 
-        className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl"
-        style={{
-          background: 'linear-gradient(135deg, #FCE7F3 0%, #F9A8D4 25%, #EC4899 50%, #BE123C 75%, #9F1239 100%)',
-          boxShadow: '0 35px 60px -15px rgba(236, 72, 153, 0.5), 0 0 80px rgba(244, 114, 182, 0.4), inset 0 0 60px rgba(255,255,255,0.1)'
-        }}
-      >
-        {/* Elegant Border Frame */}
-        <div className="absolute inset-4 border-2 border-white/40 rounded-xl" />
-        <div className="absolute inset-5 border border-white/25 rounded-lg" />
-        
-        {/* Shimmer Effect */}
-        <motion.div
-          animate={{ x: ['-100%', '100%'] }}
-          transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent"
-        />
-        
-        {/* Sparkle Points */}
-        <div className="absolute top-10 left-10 w-2 h-2 bg-white rounded-full animate-ping" />
-        <div className="absolute top-20 right-14 w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-        <div className="absolute bottom-24 left-14 w-1 h-1 bg-white rounded-full animate-ping delay-300" />
-        <div className="absolute bottom-40 right-10 w-2 h-2 bg-white rounded-full animate-pulse delay-500" />
-        <div className="absolute top-1/3 right-8 w-1 h-1 bg-white rounded-full animate-ping delay-700" />
-        
-        {/* Subtle Pattern Background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-16 left-16 text-white text-6xl">❀</div>
-          <div className="absolute bottom-20 right-20 text-white text-5xl">♡</div>
-          <div className="absolute top-1/2 left-8 text-white text-4xl">✿</div>
-        </div>
-        
-        {/* Central Heart Icon with Glow */}
-        <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <motion.div
-            animate={{ 
-              scale: [1, 1.08, 1],
-              filter: [
-                'drop-shadow(0 0 15px rgba(255,255,255,0.6))',
-                'drop-shadow(0 0 30px rgba(255,255,255,0.9))',
-                'drop-shadow(0 0 15px rgba(255,255,255,0.6))'
-              ]
-            }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="relative"
-          >
-            <Heart className="w-28 h-28 fill-white text-white" />
-            <div className="absolute inset-0 bg-white/20 rounded-full blur-xl" />
-          </motion.div>
-        </div>
-        
-        {/* Title Section */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-12 text-center px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            <h3 
-              className="text-white font-bold text-2xl leading-tight drop-shadow-2xl"
-              style={{ 
-                fontFamily: 'Playfair Display, Georgia, serif',
-                textShadow: '0 4px 20px rgba(0,0,0,0.4)'
-              }}
-            >
-              A Girl's Guide
-            </h3>
-            
-            <motion.div 
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="w-24 h-0.5 bg-gradient-to-r from-transparent via-white/70 to-transparent mx-4 my-3"
-            />
-            
-            <p
-              className="text-white/95 text-base mt-3 font-medium italic"
-              style={{ 
-                fontFamily: 'Cormorant Garamond, Georgia, serif',
-                textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-              }}
-            >
-              to Opening His Heart
-            </p>
-          </motion.div>
-        </div>
-        
-        {/* Bottom Ornament */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="flex items-center gap-3"
-          >
-            <div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-white/50" />
-            <motion.div
-              animate={{ scale: [1, 1.3, 1], rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="text-white/70"
-            >
-              <Heart className="w-5 h-5 fill-white/70" />
-            </motion.div>
-            <div className="w-12 h-0.5 bg-gradient-to-l from-transparent to-white/50" />
-          </motion.div>
-        </div>
-        
-        {/* Corner Decorations */}
-        <div className="absolute top-6 left-6 w-8 h-8 border-l-2 border-t-2 border-white/30 rounded-tl-lg" />
-        <div className="absolute top-6 right-6 w-8 h-8 border-r-2 border-t-2 border-white/30 rounded-tr-lg" />
-        <div className="absolute bottom-6 left-6 w-8 h-8 border-l-2 border-b-2 border-white/30 rounded-bl-lg" />
-        <div className="absolute bottom-6 right-6 w-8 h-8 border-r-2 border-b-2 border-white/30 rounded-br-lg" />
-      </div>
-      
-      {/* Book Spine (3D Effect) */}
-      <div 
-        className="absolute top-0 left-0 w-4 h-full rounded-l-2xl opacity-70"
-        style={{
-          background: 'linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(255,255,255,0.3) 40%, rgba(0,0,0,0.2) 100%)',
-          transform: 'rotateY(-5deg)',
-          transformOrigin: 'right'
-        }}
-      />
-      
-      {/* Page Edge Effect */}
-      <div 
-        className="absolute top-1 right-0 w-2 h-[98%] rounded-r-sm opacity-60"
-        style={{
-          background: 'linear-gradient(90deg, #FEF3C7 0%, #FDE68A 50%, #FEF3C7 100%)'
-        }}
-      />
-    </motion.div>
-  );
-};
-
-export default function App() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const features = [
-    { icon: Heart, title: "Decode His Emotional Language", description: "Learn the subtle signs he's craving deeper connection and how to respond in ways that make him feel truly understood.", color: "from-rose-400 to-pink-500" },
-    { icon: MessageCircle, title: "Communication That Melts Walls", description: "Master the words and gestures that bypass his defenses and reach his heart instantly.", color: "from-pink-400 to-rose-500" },
-    { icon: Star, title: "Reignite The Spark", description: "Bring back the passion, intimacy, and excitement you once shared - even stronger than before.", color: "from-rose-500 to-pink-600" },
-    { icon: Book, title: "Understand Male Psychology", description: "Discover what he wishes you knew about his emotional world but struggles to express.", color: "from-pink-500 to-rose-600" },
-    { icon: Gift, title: "Become Irresistible", description: "Unlock the qualities that make him commit fully and cherish you deeply.", color: "from-rose-400 to-pink-600" },
-    { icon: Users, title: "Build Lasting Trust", description: "Create an unbreakable emotional bond that withstands any challenge life throws your way.", color: "from-pink-400 to-rose-600" },
-  ];
-
-  const testimonials = [
-    { name: "Sarah M.", location: "New York", text: "After 5 years of emotional distance, my husband finally opened up to me. This book literally saved our marriage. I cry happy tears every day now!", rating: 5, image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" },
-    { name: "Emily R.", location: "California", text: "I finally understand what he needs emotionally. Our relationship has never been better - he's more affectionate, communicative, and present than ever before!", rating: 5, image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face" },
-    { name: "Jessica L.", location: "Texas", text: "The techniques in this book work like magic! He's proposing next month. I can't believe how much our relationship has transformed in just 6 weeks.", rating: 5, image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face" },
-  ];
-
-  const chapters = [
-    { number: "01", title: "The Psychology of Male Emotional Walls", desc: "Why he shuts down and how to create safety" },
-    { number: "02", title: "5 Languages of His Heart", desc: "Speak directly to his soul" },
-    { number: "03", title: "Creating Safe Spaces for Vulnerability", desc: "Make him want to open up" },
-    { number: "04", title: "Words That Unlock His Soul", desc: "Phrases that melt resistance" },
-    { number: "05", title: "Rebuilding Trust After Hurt", desc: "Heal past wounds together" },
-    { number: "06", title: "The Intimacy Blueprint", desc: "Deepen your connection exponentially" },
-    { number: "07", title: "Making Him Feel Truly Understood", desc: "The key to his devotion" },
-    { number: "08", title: "Your 30-Day Transformation Plan", desc: "Step-by-step action guide" },
-  ];
-
-  const faqs = [
-    { q: "Is this book suitable for new relationships?", a: "Absolutely! Whether you've been together 3 months or 30 years, these principles apply to any stage of love. Many women in new relationships say this gave them a huge advantage in building a strong foundation from the start." },
-    { q: "How quickly will I see results?", a: "Many women report noticeable changes within the first week of applying these techniques. Full transformation typically occurs within 30 days. The key is consistency and genuine intention to connect deeper." },
-    { q: "Is this available in digital format?", a: "Yes! You'll receive instant access to the PDF ebook compatible with all devices (phone, tablet, computer, e-reader). You can start reading within seconds of ordering!" },
-    { q: "What if it doesn't work for me?", a: "We offer a 30-day money-back guarantee, no questions asked. If you don't see results or simply don't love the book, email us for a full refund. We're confident you'll be thrilled with your transformation." },
-    { q: "Are the bonus materials included?", a: "Yes! When you order today, you'll receive all 3 bonus guides absolutely FREE (valued at $97): 'The Confidence Code', 'Date Night Ideas That Spark Passion', and 'His Love Language Quick Reference Guide'." },
-    { q: "Can I share this with my friends?", a: "This is a personal license for your use only. However, we offer special group discounts if multiple friends want to purchase together - just contact our support team!" },
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-amber-50 relative overflow-x-hidden">
-      <FloatingElements />
-      <StickyHeader />
-
-      {/* Hero Section - Ultra Romantic with Golden Hour Aesthetic */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background with romantic golden hour landscape */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1920&h=1080&fit=crop')`
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-900/85 via-purple-900/80 to-pink-900/85" />
-        
-        {/* Decorative elements */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-rose-400/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-amber-300/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 py-20 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Social Proof Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-6 py-3 rounded-full mb-8 border border-rose-300/40 shadow-2xl"
-            >
-              <Sparkles className="text-amber-300" size={20} />
-              <span className="text-white font-semibold text-lg">Join 10,000+ Women Who Transformed Their Love Lives</span>
-              <Sparkles className="text-amber-300" size={20} />
-            </motion.div>
-
-            {/* Main Headline */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
-              <span className="block">The Secret to Making</span>
-              <span className="block bg-gradient-to-r from-amber-200 via-rose-200 to-pink-200 bg-clip-text text-transparent">Him Open His Heart</span>
-            </h1>
-
-            {/* Subheadline */}
-            <p className="text-xl md:text-2xl text-rose-100 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Discover the psychological keys that unlock his deepest emotions and create the loving, 
-              passionate relationship you've always dreamed of
-            </p>
-
-            {/* Ultra-Professional Book Cover Display */}
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="relative inline-block mb-12"
-            >
-              {/* Background Glow */}
-              <div className="absolute inset-0 bg-gradient-to-r from-rose-400/30 via-pink-400/30 to-amber-400/30 rounded-3xl blur-3xl animate-pulse" />
-              
-              <div className="relative flex items-center gap-8 bg-white/10 backdrop-blur-md rounded-3xl p-10 shadow-2xl border border-white/20">
-                {/* Professional Book Cover */}
-                <ProfessionalBookCover size="large" />
-                
-                {/* Pricing & Offer */}
-                <div className="text-left space-y-6">
-                  {/* Discount Badge */}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.8, type: "spring" }}
-                    className="inline-block"
-                  >
-                    <div className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-white font-bold text-4xl px-8 py-4 rounded-2xl shadow-2xl border-4 border-amber-300/50">
-                      -70% OFF
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <i class="fas fa-heart"></i>
+                    <span>10,000+ Women Transformed</span>
+                </div>
+                <h1 class="hero-title">The Secret to Making <span>His Heart</span> Open Completely</h1>
+                <p class="hero-subtitle">Discover the proven psychological secrets that create deep emotional connection and lasting love</p>
+                <a href="#pricing" class="hero-cta">
+                    <span>Start Your Journey Today</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure Payment</span>
                     </div>
-                  </motion.div>
-                  
-                  {/* Pricing */}
-                  <div className="space-y-3">
-                    <p className="text-white/90 text-xl">
-                      Regular Price: <span className="line-through text-rose-200">$97</span>
-                    </p>
-                    <div className="flex items-baseline gap-3">
-                      <p className="text-amber-300 text-6xl font-bold drop-shadow-lg">Today: $27</p>
-                      <span className="bg-rose-500 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse">
-                        BEST SELLER
-                      </span>
+                    <div class="trust-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>30-Day Guarantee</span>
                     </div>
-                  </div>
-                  
-                  {/* Bonuses */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 1, duration: 0.6 }}
-                    className="bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-2xl p-5 border border-purple-300/40"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <Gift className="text-amber-300" size={28} />
-                      <span className="text-white font-bold text-lg">FREE Bonuses Included:</span>
+                    <div class="trust-item">
+                        <i class="fas fa-download"></i>
+                        <span>Instant Download</span>
                     </div>
-                    <ul className="space-y-2 text-amber-100 text-sm">
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 className="text-green-300" size={16} />
-                        The Confidence Code ($37 value)
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 className="text-green-300" size={16} />
-                        Date Night Ideas Guide ($27 value)
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 className="text-green-300" size={16} />
-                        Love Language Quick Reference ($33 value)
-                      </li>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="book-cover-container">
+                    <div class="discount-badge">-70% OFF</div>
+                    <div class="book-cover">
+                        <div class="book-spine"></div>
+                        <div class="book-pages"></div>
+                        <div class="book-shimmer"></div>
+                        <div class="book-decoration">
+                            <div class="book-corner top-left"></div>
+                            <div class="book-corner top-right"></div>
+                            <div class="book-corner bottom-left"></div>
+                            <div class="book-corner bottom-right"></div>
+                        </div>
+                        <div class="book-content">
+                            <div class="book-heart">❤️</div>
+                            <h2 class="book-title">A Girl's Guide</h2>
+                            <p class="book-subtitle">to Opening His Heart</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Does This Sound Familiar?</span>
+                <h2 class="section-title">The Pain of Emotional Distance</h2>
+                <p class="section-subtitle">You're not alone. These are the most common struggles women face in their relationships</p>
+            </div>
+            <div class="problem-cards">
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-wall"></i>
+                    </div>
+                    <h3>The Emotional Wall</h3>
+                    <p>He seems distant, closed off, and you can't seem to reach him no matter how hard you try. You feel like you're talking to a stranger.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-comment-slash"></i>
+                    </div>
+                    <h3>Broken Communication</h3>
+                    <p>Every conversation turns into an argument or silence. You miss the deep, meaningful talks you used to have together.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-heart-broken"></i>
+                    </div>
+                    <h3>Fading Passion</h3>
+                    <p>The spark is gone. The romance feels forced. You wonder if the love you once shared can ever be reignited.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">What You'll Discover</span>
+                <h2 class="section-title">Your Path to His Heart</h2>
+                <p class="section-subtitle">Seven powerful secrets that transform relationships forever</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>The Psychology of Male Emotions</h3>
+                    <p>Understand exactly how men process love and what triggers them to open up emotionally.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Communication That Connects</h3>
+                    <p>Learn the exact words and phrases that make him want to share his deepest feelings with you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>The Attraction Triggers</h3>
+                    <p>Discover the subtle behaviors that naturally draw him closer and deepen his commitment.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-heart"></i>
+                    </div>
+                    <h3>Emotional Safety Secrets</h3>
+                    <p>Create an environment where he feels safe to be vulnerable and authentic with you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Reignite The Spark</h3>
+                    <p>Bring back the passion and romance that made you fall in love in the first place.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <h3>Long-Term Devotion</h3>
+                    <p>Build a foundation of trust and love that lasts a lifetime and grows stronger each day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapters Preview -->
+    <section class="chapters-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Inside The Book</span>
+                <h2 class="section-title">Chapter Preview</h2>
+                <p class="section-subtitle">A glimpse into your transformation journey</p>
+            </div>
+            <div class="chapters-grid">
+                <div class="chapter-card">
+                    <div class="chapter-number">1</div>
+                    <div class="chapter-content">
+                        <h4>Understanding His Heart</h4>
+                        <p>The fundamental differences in how men and women experience love</p>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">2</div>
+                    <div class="chapter-content">
+                        <h4>The Trust Foundation</h4>
+                        <p>Building the safety he needs to open up completely</p>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">3</div>
+                    <div class="chapter-content">
+                        <h4>Communication Mastery</h4>
+                        <p>Words and techniques that create deep connection</p>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">4</div>
+                    <div class="chapter-content">
+                        <h4>Emotional Intimacy</h4>
+                        <p>Creating the bond that makes him never want to leave</p>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">5</div>
+                    <div class="chapter-content">
+                        <h4>Passion & Romance</h4>
+                        <p>Keeping the spark alive for years to come</p>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">6</div>
+                    <div class="chapter-content">
+                        <h4>Overcoming Obstacles</h4>
+                        <p>Navigating challenges together as a team</p>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">7</div>
+                    <div class="chapter-content">
+                        <h4>Long-Term Love</h4>
+                        <p>Building a relationship that grows stronger with time</p>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">8</div>
+                    <div class="chapter-content">
+                        <h4>Your Transformation</h4>
+                        <p>Putting it all together for lasting change</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Success Stories</span>
+                <h2 class="section-title">Real Women, Real Results</h2>
+                <p class="section-subtitle">See what thousands of women have achieved with this guide</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"After 5 years of feeling disconnected, this guide saved my marriage. My husband now opens up to me every day. It's like we're newlyweds again!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face&q=85" alt="Sarah M." class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Sarah M.</h4>
+                            <p>New York</p>
+                            <div class="verified-badge">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Verified Purchase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"I was skeptical at first, but the techniques actually work! My boyfriend proposed last month. This book changed everything for us."</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face&q=85" alt="Emily R." class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Emily R.</h4>
+                            <p>California</p>
+                            <div class="verified-badge">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Verified Purchase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"The communication strategies are gold! We went from barely talking to having deep conversations every night. Thank you so much!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face&q=85" alt="Jessica L." class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Jessica L.</h4>
+                            <p>Texas</p>
+                            <div class="verified-badge">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Verified Purchase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Simple Steps</span>
+                <h2 class="section-title">Your Journey to Love</h2>
+                <p class="section-subtitle">Three easy steps to transform your relationship</p>
+            </div>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Get Your Copy</h3>
+                    <p>Download the guide instantly after purchase. Start reading within minutes on any device.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Apply The Secrets</h3>
+                    <p>Implement the proven techniques step by step. Watch as he begins to open up naturally.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Enjoy Your Transformation</h3>
+                    <p>Experience the deep connection, passion, and love you've always dreamed of having.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Limited Time Offer</span>
+                <h2 class="section-title" style="color: white;">Choose Your Package</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Start your transformation today with our special pricing</p>
+            </div>
+            <div class="pricing-container">
+                <div class="pricing-card">
+                    <h3 class="pricing-title">Essential Guide</h3>
+                    <p class="pricing-subtitle">Everything you need to start</p>
+                    <div class="pricing-price">
+                        <span class="price-old">$97</span>
+                        <span class="price-new">$27</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check check-icon"></i> Complete 8-Chapter eBook</li>
+                        <li><i class="fas fa-check check-icon"></i> PDF, EPUB & MOBI Formats</li>
+                        <li><i class="fas fa-check check-icon"></i> Instant Download</li>
+                        <li><i class="fas fa-check check-icon"></i> 30-Day Money-Back Guarantee</li>
+                        <li><i class="fas fa-check check-icon"></i> Lifetime Access</li>
                     </ul>
-                    <p className="text-amber-300 font-bold mt-4 text-lg">+ $97 Value - FREE Today!</p>
-                  </motion.div>
+                    <a href="#" class="pricing-cta">Get Started Now →</a>
                 </div>
-              </div>
-            </motion.div>
-
-            {/* Trust Indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-6 text-rose-100">
-              <div className="flex items-center gap-2">
-                <ShieldCheck size={24} />
-                <span className="font-medium">30-Day Money-Back Guarantee</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Lock size={24} />
-                <span className="font-medium">Secure Payment</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap size={24} />
-                <span className="font-medium">Instant Download</span>
-              </div>
-            </div>
-
-            {/* CTA Button */}
-            <motion.button
-              whileHover={{ scale: 1.05, y: -3 }}
-              whileTap={{ scale: 0.98 }}
-              className="mt-12 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-500 hover:via-amber-600 hover:to-amber-700 text-white font-bold text-xl py-5 px-12 rounded-full shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 transform border-4 border-amber-300/50"
-            >
-              Yes! I Want to Transform My Relationship →
-            </motion.button>
-          </motion.div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/70"
-        >
-          <ChevronDown size={40} />
-        </motion.div>
-      </section>
-
-      {/* Problem Agitation Section - Soft Peach/Coral Tones */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-50 to-amber-50" />
-        <div className="max-w-6xl mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-              <span className="bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">Does This Sound Familiar?</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              You're not alone. Millions of women struggle with these same challenges...
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { 
-                icon: Heart, 
-                title: "Emotional Walls", 
-                desc: "He shuts down when you try to connect deeply, leaving you feeling alone even when you're together",
-                color: "from-rose-400 to-pink-500"
-              },
-              { 
-                icon: MessageCircle, 
-                title: "Communication Breakdown", 
-                desc: "Conversations turn into arguments, and he seems unable to express what he's really feeling",
-                color: "from-pink-400 to-rose-500"
-              },
-              { 
-                icon: Moon, 
-                title: "Fading Passion", 
-                desc: "The spark you once had feels distant, and you miss the intimacy and connection you shared",
-                color: "from-rose-500 to-pink-600"
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-rose-100/60 text-center hover:shadow-2xl transition-all duration-500 group"
-              >
-                <div className={`inline-flex p-5 rounded-full bg-gradient-to-br ${item.color} mb-6 shadow-lg group-hover:shadow-xl transition-shadow duration-500`}>
-                  <item.icon className="text-white" size={36} />
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3 class="pricing-title">Complete Bundle</h3>
+                    <p class="pricing-subtitle">Maximum transformation package</p>
+                    <div class="pricing-price">
+                        <span class="price-old">$197</span>
+                        <span class="price-new">$47</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check check-icon"></i> Everything in Essential</li>
+                        <li><i class="fas fa-check check-icon"></i> Bonus: Communication Scripts ($47)</li>
+                        <li><i class="fas fa-check check-icon"></i> Bonus: Date Night Ideas ($30)</li>
+                        <li><i class="fas fa-check check-icon"></i> Bonus: Relationship Workbook ($20)</li>
+                        <li><i class="fas fa-check check-icon"></i> Priority Email Support</li>
+                        <li><i class="fas fa-check check-icon"></i> Private Community Access</li>
+                    </ul>
+                    <a href="#" class="pricing-cta">Get The Bundle →</a>
+                    <div class="countdown-timer" id="countdownTimer">
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="hours">04</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="minutes">32</div>
+                            <div class="countdown-label">Minutes</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="seconds">18</div>
+                            <div class="countdown-label">Seconds</div>
+                        </div>
+                    </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">{item.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mt-16"
-          >
-            <p className="text-2xl text-gray-700 font-medium mb-4">
-              💔 If you nodded to any of these, this book was written specifically for you
-            </p>
-            <p className="text-lg text-gray-600">
-              Keep reading to discover the transformation that awaits...
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Features Section - Dreamy Lavender/Rose Gradient */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-200 via-pink-100 to-purple-100" />
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-20 left-10 w-80 h-80 bg-rose-300/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl" />
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-md px-6 py-3 rounded-full mb-6 border border-rose-200 shadow-lg">
-              <Crown className="text-amber-500" size={24} />
-              <span className="text-rose-700 font-semibold">What You'll Discover Inside</span>
             </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-              <span className="bg-gradient-to-r from-rose-500 via-pink-600 to-purple-600 bg-clip-text text-transparent">
-                Your Path to His Heart
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Eight powerful chapters that will transform how you connect with him emotionally
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <FeatureCard key={index} {...feature} delay={index * 0.1} />
-            ))}
-          </div>
         </div>
-      </section>
+    </section>
 
-      {/* Chapter Preview Section - Warm Golden Hour Tones */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50" />
-        
-        <div className="max-w-6xl mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-              <span className="bg-gradient-to-r from-amber-500 to-rose-600 bg-clip-text text-transparent">
-                Chapter Preview
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              A glimpse into your transformation journey
-            </p>
-          </motion.div>
+    <!-- Guarantee Section -->
+    <section class="guarantee-section">
+        <div class="guarantee-card">
+            <div class="guarantee-icon">
+                <i class="fas fa-award"></i>
+            </div>
+            <h3 class="guarantee-title">30-Day "Love It or Leave It" Guarantee</h3>
+            <p class="guarantee-text">We're so confident in this guide that we offer a full 30-day money-back guarantee. If you don't see a transformation in your relationship, simply email us for a complete refund. No questions asked. Your happiness is our priority.</p>
+        </div>
+    </section>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {chapters.map((chapter, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-amber-100/60 hover:shadow-xl hover:border-amber-300/60 transition-all duration-500 group flex items-start gap-4"
-              >
-                <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-amber-400 to-rose-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-500">
-                  <span className="text-white font-bold text-xl">{chapter.number}</span>
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Got Questions?</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know before getting started</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How will I receive the guide?</h3>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Immediately after purchase, you'll receive an email with download links for all formats (PDF, EPUB, MOBI). You can start reading within minutes on any device - computer, tablet, phone, or e-reader.
+                        </div>
+                    </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-amber-600 transition-colors duration-300">{chapter.title}</h3>
-                  <p className="text-gray-600">{chapter.desc}</p>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is this guide suitable for all relationship stages?</h3>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! Whether you're dating, engaged, or married for years, the principles in this guide apply to all stages. The techniques work for new relationships looking to build strong foundations and long-term relationships needing renewal.
+                        </div>
+                    </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section - Soft Rose/Pink */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-50 to-rose-100" />
-        <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-rose-200/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-md px-6 py-3 rounded-full mb-6 border border-rose-200 shadow-lg">
-              <Star className="text-amber-500 fill-amber-500" size={20} />
-              <span className="text-rose-700 font-semibold">4.9/5 Average Rating</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-              <span className="bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">
-                Real Women, Real Results
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Join thousands of women who transformed their relationships
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={index} {...testimonial} delay={index * 0.2} />
-            ))}
-          </div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-            className="mt-16 grid md:grid-cols-3 gap-8"
-          >
-            {[
-              { number: "10,000+", label: "Women Transformed", icon: Users },
-              { number: "97%", label: "Success Rate", icon: TrendingUp },
-              { number: "4.9/5", label: "Average Rating", icon: Star },
-            ].map((stat, index) => (
-              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 text-center shadow-xl border border-rose-100/60">
-                <stat.icon className="text-rose-500 mx-auto mb-4" size={40} />
-                <p className="text-4xl font-bold text-gray-800 mb-2">{stat.number}</p>
-                <p className="text-gray-600">{stat.label}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* How It Works - Simple 3 Steps */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-amber-50" />
-        
-        <div className="max-w-6xl mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-              <span className="bg-gradient-to-r from-purple-500 to-pink-600 bg-clip-text text-transparent">
-                Your Journey to Love
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Three simple steps to transform your relationship
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { 
-                step: "01", 
-                title: "Download Instantly", 
-                desc: "Get immediate access to the ebook and all bonuses after secure checkout",
-                icon: BookOpen
-              },
-              { 
-                step: "02", 
-                title: "Apply the Techniques", 
-                desc: "Follow the step-by-step guide and watch him open up emotionally",
-                icon: Zap
-              },
-              { 
-                step: "03", 
-                title: "Enjoy Your Transformation", 
-                desc: "Experience the deep, loving connection you've always dreamed of",
-                icon: Heart
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="text-center relative"
-              >
-                {index < 2 && (
-                  <div className="hidden md:block absolute top-1/4 left-1/2 w-full h-1 bg-gradient-to-r from-rose-300 to-pink-300 transform -translate-y-1/2 z-0" />
-                )}
-                <div className="relative z-10">
-                  <div className="w-24 h-24 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl border-4 border-white">
-                    <item.icon className="text-white" size={40} />
-                  </div>
-                  <div className="inline-block bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xl w-12 h-12 rounded-full flex items-center justify-center mb-4 shadow-lg">
-                    {item.step}
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-3">{item.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{item.desc}</p>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How long until I see results?</h3>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Many women report noticing changes within the first week of implementing the techniques. However, everyone's situation is unique. Most see significant transformation within 2-4 weeks of consistent application.
+                        </div>
+                    </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What if it doesn't work for me?</h3>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            That's exactly why we offer our 30-day money-back guarantee. If you're not satisfied with your results for any reason, simply email us within 30 days for a full refund. No questions asked.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is my payment information secure?</h3>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Absolutely! We use industry-standard SSL encryption and secure payment processors. Your payment information is never stored on our servers and is completely protected.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I get a refund after purchasing?</h3>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! We offer a full 30-day money-back guarantee. If you're not completely satisfied with the guide for any reason, simply contact our support team and we'll process your refund immediately.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-      {/* Pricing Section - Urgency with Countdown */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-900 via-purple-900 to-pink-900" />
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-10" />
-        
-        <div className="max-w-6xl mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 bg-amber-400/20 backdrop-blur-md px-6 py-3 rounded-full mb-6 border border-amber-300/40">
-              <Clock className="text-amber-300" size={24} />
-              <span className="text-amber-200 font-semibold">Limited Time Offer - Ends In:</span>
-            </div>
-            <CountdownTimer />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto"
-          >
-            {/* Regular Price */}
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 hover:border-white/40 transition-all duration-500">
-              <h3 className="text-3xl font-bold text-white mb-4">Essential Package</h3>
-              <div className="mb-6">
-                <span className="text-5xl font-bold text-white">$27</span>
-                <span className="text-2xl text-rose-300 line-through ml-3">$97</span>
-              </div>
-              <ul className="space-y-4 mb-8">
-                {[
-                  "Complete Ebook (8 Chapters)",
-                  "PDF Format - All Devices",
-                  "Instant Download",
-                  "30-Day Money-Back Guarantee",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-rose-100">
-                    <CheckCircle2 className="text-amber-400 flex-shrink-0" size={24} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <button className="w-full bg-white/20 hover:bg-white/30 text-white font-bold py-4 px-8 rounded-full border-2 border-white/40 transition-all duration-300 hover:scale-105">
-                Get Started - $27
-              </button>
-            </div>
-
-            {/* Bundle Package - Most Popular */}
-            <div className="relative bg-gradient-to-br from-amber-400/20 via-rose-500/20 to-pink-500/20 backdrop-blur-md rounded-3xl p-8 border-2 border-amber-400/60 shadow-2xl transform scale-105">
-              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-amber-400 to-amber-500 text-white font-bold px-6 py-2 rounded-full shadow-lg">
-                MOST POPULAR
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-4">Complete Bundle</h3>
-              <div className="mb-6">
-                <span className="text-5xl font-bold text-white">$47</span>
-                <span className="text-2xl text-rose-300 line-through ml-3">$194</span>
-              </div>
-              <ul className="space-y-4 mb-8">
-                {[
-                  "Everything in Essential Package",
-                  "BONUS: The Confidence Code ($37 value)",
-                  "BONUS: Date Night Ideas Guide ($30 value)",
-                  "BONUS: Love Language Quick Reference ($30 value)",
-                  "Priority Email Support",
-                  "Lifetime Updates",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-white">
-                    <CheckCircle2 className="text-amber-400 flex-shrink-0" size={24} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <button className="w-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-500 hover:via-amber-600 hover:to-amber-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border-2 border-amber-300/50">
-                Get Complete Bundle - $47
-              </button>
-              <p className="text-center text-amber-200 mt-4 text-sm font-medium">
-                Save $147 + Get All Bonuses FREE!
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Guarantee Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-            className="mt-16 text-center"
-          >
-            <div className="inline-flex items-center gap-4 bg-white/10 backdrop-blur-md px-8 py-6 rounded-2xl border border-white/20">
-              <Award className="text-amber-400" size={48} />
-              <div className="text-left">
-                <p className="text-white font-bold text-xl">30-Day "Love It or Leave It" Guarantee</p>
-                <p className="text-rose-200">If you don't see results, get a full refund. No questions asked.</p>
-              </div>
-            </div>
-          </motion.div>
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="section-container">
+            <h2>Ready to Transform Your Relationship?</h2>
+            <p>Join 10,000+ women who discovered the secrets to his heart</p>
+            <a href="#pricing" class="cta-button">
+                <span>Get Your Copy Now - 70% OFF</span>
+                <i class="fas fa-heart"></i>
+            </a>
         </div>
-      </section>
+    </section>
 
-      {/* FAQ Section - Soft Cream/Peach */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50" />
-        
-        <div className="max-w-4xl mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-              <span className="bg-gradient-to-r from-amber-500 to-rose-600 bg-clip-text text-transparent">
-                Frequently Asked Questions
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Everything you need to know before starting your journey
-            </p>
-          </motion.div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <FAQItem
-                key={index}
-                index={index}
-                question={faq.q}
-                answer={faq.a}
-                isOpen={openFaq === index}
-                onClick={() => setOpenFaq(openFaq === index ? null : index)}
-              />
-            ))}
-          </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About This Guide</h4>
+                <p>A comprehensive resource created by relationship experts to help women build deeper, more meaningful connections with their partners.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#pricing">Pricing</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#faq">FAQ</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Refund Policy</a>
+                <a href="#">Disclaimer</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>support@loveguide.com</p>
+                <p>24/7 Customer Support</p>
+                <p>Average Response: 2 hours</p>
+            </div>
         </div>
-      </section>
+        <div class="footer-bottom">
+            <p>&copy; 2024 A Girl's Guide to Opening His Heart. All rights reserved. | Designed with 💕 for women worldwide</p>
+        </div>
+    </footer>
 
-      {/* Final CTA Section - Romantic Sunset */}
-      <section className="py-24 relative overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1920&h=1080&fit=crop')`
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-900/90 via-purple-900/90 to-pink-900/90" />
-        <div className="absolute top-20 left-10 w-96 h-96 bg-rose-400/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-pink-400/30 rounded-full blur-3xl" />
-        
-        <div className="max-w-5xl mx-auto px-4 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-5xl md:text-7xl font-bold text-white mb-6">
-              Ready to Transform<br />
-              <span className="bg-gradient-to-r from-amber-200 via-rose-200 to-pink-200 bg-clip-text text-transparent">Your Love Story?</span>
-            </h2>
-            <p className="text-2xl text-rose-100 mb-10 max-w-3xl mx-auto">
-              Join 10,000+ women who discovered the secrets to his heart. Your transformation starts today.
-            </p>
+    <!-- JavaScript -->
+    <script>
+        // ===== STICKY HEADER =====
+        const stickyHeader = document.getElementById('stickyHeader');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
             
-            <motion.button
-              whileHover={{ scale: 1.05, y: -3 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-500 hover:via-amber-600 hover:to-amber-700 text-white font-bold text-2xl py-6 px-16 rounded-full shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 border-4 border-amber-300/50 mb-8"
-            >
-              Get Instant Access Now - $27
-            </motion.button>
+            if (currentScroll > 500) {
+                stickyHeader.classList.add('visible');
+            } else {
+                stickyHeader.classList.remove('visible');
+            }
+            
+            lastScroll = currentScroll;
+        });
 
-            <div className="flex flex-wrap items-center justify-center gap-6 text-rose-100">
-              <div className="flex items-center gap-2">
-                <Lock size={20} />
-                <span>Secure Checkout</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap size={20} />
-                <span>Instant Download</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <ShieldCheck size={20} />
-                <span>30-Day Guarantee</span>
-              </div>
-            </div>
+        // ===== COUNTDOWN TIMER =====
+        function startCountdown() {
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            let hours = 4;
+            let minutes = 32;
+            let seconds = 18;
+            
+            setInterval(() => {
+                seconds--;
+                
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                    
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                        
+                        if (hours < 0) {
+                            hours = 23;
+                        }
+                    }
+                }
+                
+                hoursEl.textContent = hours.toString().padStart(2, '0');
+                minutesEl.textContent = minutes.toString().padStart(2, '0');
+                secondsEl.textContent = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
 
-            <p className="text-rose-200 mt-8 text-lg">
-              💕 Don't wait another day to have the relationship you deserve
-            </p>
-          </motion.div>
-        </div>
-      </section>
+        startCountdown();
 
-      {/* Footer */}
-      <footer className="bg-gradient-to-br from-gray-900 via-rose-900 to-gray-900 text-white py-12 border-t border-rose-800/50">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <Heart className="text-rose-400 fill-rose-400" size={32} />
-              <span className="text-2xl font-bold">A Girl's Guide</span>
-            </div>
-            <div className="text-center md:text-right text-rose-200">
-              <p>© 2024 A Girl's Guide. All rights reserved.</p>
-              <p className="text-sm mt-2">This site is not part of Facebook or Google. This site is not endorsed by Facebook or Google in any way.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-}
+        // ===== FAQ ACCORDION =====
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ===== ANIMATION ON SCROLL =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply animation to sections
+        document.querySelectorAll('.problem-card, .feature-card, .testimonial-card, .chapter-card, .step-card, .pricing-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
